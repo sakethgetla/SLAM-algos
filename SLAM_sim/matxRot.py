@@ -126,9 +126,9 @@ def gameLoop():
             #rotate(p, size, [0, -1, 0])
             #
             if (key[pygame.K_UP] or key[pygame.K_w]) :
-                p[2] +=1
+                p[2] +=4
             if (key[pygame.K_DOWN] or key[pygame.K_s]) :
-                p[2] -=1
+                p[2] -=4
             if (key[pygame.K_x]) :
                 if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
                     rotate(p, size, [0, 0, -1])
