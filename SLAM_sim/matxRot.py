@@ -86,7 +86,12 @@ def displayPoints(points):
             #pygame.draw.circle(gameDisplay, red, [x, y, 5] )
             print("point")
             print(x, y)
-            pygame.draw.circle(gameDisplay, green, [x, y], 5)
+            dist = math.sqrt((p[0]**2) + (p[1]**2) + (p[2]**2))
+            Psize = (display_width - dist) // 90
+            if (Psize <1) :
+                Psize =1
+            Psize = int(Psize)
+            pygame.draw.circle(gameDisplay, green, [x, y], Psize)
             #pygame.draw.rect(gameDisplay, red, [pos[0], pos[1], size[0], size[1]] )
 
 
@@ -125,10 +130,19 @@ def gameLoop():
             #rotate(p, size, rotDir)
             #rotate(p, size, [0, -1, 0])
             #
+            speed = 4
+            if (key[pygame.K_m]) :
+                p[2] -= speed
+            if (key[pygame.K_n]) :
+                p[2] += speed
             if (key[pygame.K_UP] or key[pygame.K_w]) :
-                p[2] +=4
+                p[1] -= speed
             if (key[pygame.K_DOWN] or key[pygame.K_s]) :
-                p[2] -=4
+                p[1] += speed
+            if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
+                p[0] += speed
+            if (key[pygame.K_LEFT] or key[pygame.K_a]) :
+                p[0] -= speed
             if (key[pygame.K_x]) :
                 if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
                     rotate(p, size, [0, 0, -1])
