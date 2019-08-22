@@ -9,5 +9,8 @@ To rotate press:
 for in and out
 (m | n) 
 
+for move left, right, up, down
+use arrow keys 
+
 
 
