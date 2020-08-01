@@ -1,6 +1,7 @@
 import pygame
 import math
 import numpy as np
+from pdb import set_trace as bp
 
 
 pygame.init()
@@ -36,24 +37,24 @@ def matxmul(pos, rot):
     np.multiply([x, y], matx)
 
 
-def rotate2D(pos, rot):
-    thetha = rot[0]*2*math.pi /100
+#def rotate2D(pos, rot):
+#    thetha = rot[0]*2*math.pi/100
 
 
-#def rotate(pos, screenCentre, rot):
-def rotate(pos, rot):
-    #print("rotating")
-    thetha = rot[0]*2*math.pi /100
-    pos[0] = (pos[0]*math.cos(thetha)) - (pos[1]*math.sin(thetha))
-    pos[1] = (pos[0]*math.sin(thetha)) + (pos[1]*math.cos(thetha))
+#def rotate(pos, screenCentre, rot): 
+    #pos = matxTransform*theta
+    #pos = (pos.T * matxTransform.T).T
+    #print("here = ",matxTransform, pos)
+    #pos[0] = (pos[0]*math.cos(thetha)) - (pos[1]*math.sin(thetha))
+    #pos[1] = (pos[0]*math.sin(thetha)) + (pos[1]*math.cos(thetha))
 
-    thetha = rot[1]*2*math.pi /100
-    pos[0] = (pos[0]*math.cos(thetha)) - (pos[2]*math.sin(thetha))
-    pos[2] = (pos[0]*math.sin(thetha)) + (pos[2]*math.cos(thetha))
+    #thetha = rot[1]*2*math.pi /100
+    #pos[0] = (pos[0]*math.cos(thetha)) - (pos[2]*math.sin(thetha))
+    #pos[2] = (pos[0]*math.sin(thetha)) + (pos[2]*math.cos(thetha))
 
-    thetha = rot[2]*2*math.pi /100
-    pos[2] = (pos[2]*math.cos(thetha)) - (pos[1]*math.sin(thetha))
-    pos[1] = (pos[2]*math.sin(thetha)) + (pos[1]*math.cos(thetha))
+    #thetha = rot[2]*2*math.pi /100
+    #pos[2] = (pos[2]*math.cos(thetha)) - (pos[1]*math.sin(thetha))
+    #pos[1] = (pos[2]*math.sin(thetha)) + (pos[1]*math.cos(thetha))
 
     #pos[0] = (pos[0]*math.sin(thetha)) - (pos[1]*math.cos(thetha))
     #pos[1] = (pos[0]*math.cos(thetha)) + (pos[1]*math.sin(thetha))
@@ -63,7 +64,14 @@ def rotate(pos, rot):
     #pos[0] = math.sin(math.pi * rot)
     #rot = [0, 0, 0]
 
-#def display2Screen(gameDisplay):
+#def display2Screen(gameDisplay):Y4
+def rotate(pos, rot):
+    #print("rotating")  
+    theta = rot[0]*2*math.pi/100
+
+    matxTransform = np.asarray([[math.cos(theta), -math.sin(theta), 0], [math.sin(theta), math.cos(theta), 0], [0, 0, 1]])
+    #bp()
+    pos = np.matmul(pos, matxTransform)
 
 def to2D(d3):
     # takes in a 3d point and returns a 2d point
@@ -73,7 +81,6 @@ def to2D(d3):
     #p2 = zc* d3[1] /d3[2]
     #return p1+(display_width//2), p2+(display_width//2)
     return zc* d3[0] /(zc+d3[2]), zc* d3[1] /(zc+d3[2])
-
 
 
 def displayPoints(points):
@@ -99,7 +106,6 @@ def displayPoints(points):
             pygame.draw.circle(gameDisplay, green, [x, y], Psize)
             #pygame.draw.rect(gameDisplay, red, [pos[0], pos[1], size[0], size[1]] )
 
-
 def gameLoop():
     matx = np.random.randint(10, size =(3))
     print('matx = ')
@@ -108,8 +114,8 @@ def gameLoop():
     gameDisplay.fill(gray)
     gameExit = False
 
-    points = (display_width * np.random.random_sample((100, 3)))
-
+    points = (display_width * np.random.random_sample((1, 3)))
+    #points = (display_width * np.random.random_sample((100, 3)))
     for p in points:
         p[0] -= display_width//2
         p[1] -= display_width//2
@@ -154,27 +160,31 @@ def gameLoop():
                 p[0] += speed
             if (key[pygame.K_LEFT] or key[pygame.K_a]) :
                 p[0] -= speed
+
             if (key[pygame.K_x]) :
-                if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
-                    rotate(p, [0, 0, -1])
-                    #rotate(p, size, [0, 0, -1])
-                if (key[pygame.K_LEFT] or key[pygame.K_a]) :
-                    rotate(p, [0, 0, 1])
-                    #rotate(p, size, [0, 0, 1])
-            if (key[pygame.K_y]) :
-                if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
-                    rotate(p, [0, -1, 0])
-                    #rotate(p, size, [0, -1, 0])
-                if (key[pygame.K_LEFT] or key[pygame.K_a]) :
-                    rotate(p, [0, 1, 0])
-                    #rotate(p, size, [0, 1, 0])
-            if (key[pygame.K_z]) :
-                if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
-                    rotate(p, [-1, 0, 0])
-                    #rotate(p, size, [-1, 0, 0])
-                if (key[pygame.K_LEFT] or key[pygame.K_a]) :
-                    rotate(p, [1, 0, 0])
-                    #rotate(p, size, [1, 0, 0])
+                rotate(p, [1, 0, 0])
+
+            #if (key[pygame.K_x]) :
+            #    if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
+            #        p = rotate(p, [0, 0, -1])
+            #        #rotate(p, size, [0, 0, -1])
+            #    if (key[pygame.K_LEFT] or key[pygame.K_a]) :
+            #        p = rotate(p, [0, 0, 1])
+            #        #rotate(p, size, [0, 0, 1])
+            #if (key[pygame.K_y]) :
+            #    if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
+            #        p = rotate(p, [0, -1, 0])
+            #        #rotate(p, size, [0, -1, 0])
+            #    if (key[pygame.K_LEFT] or key[pygame.K_a]) :
+            #        p = rotate(p, [0, 1, 0])
+            #        #rotate(p, size, [0, 1, 0])
+            #if (key[pygame.K_z]) :
+            #    if (key[pygame.K_RIGHT] or key[pygame.K_d]) :
+            #        p = rotate(p, [-1, 0, 0])
+            #        #rotate(p, size, [-1, 0, 0])
+            #    if (key[pygame.K_LEFT] or key[pygame.K_a]) :
+            #        p = rotate(p, [1, 0, 0])
+            #        #rotate(p, size, [1, 0, 0])
         if key[pygame.K_q] :
             gameExit = True
 
